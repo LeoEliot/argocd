@@ -1,23 +1,48 @@
-# Loki distributed configuration
-loki:
-  structuredConfig:
-    ingester:
-      max_transfer_age: 24h
-    limits_config:
-      enforce_metric_name: false
-      reject_old_samples: true
-      reject_old_samples_max_age: 168h
-      max_streams_per_user: 0
-    table_manager:
-      retention_deletes_enabled: true
-      retention_period: 720h
+# Loki deployment mode
+deploymentMode: SingleBinary
 
-# Minio for Loki storage (optional, replace with your storage backend)
-minio:
-  enabled: false
+# Loki simple/single binary mode
+loki:
+  mode: SingleBinary
+  storage:
+    type: "filesystem"
+    filesystem:
+      chunksDirectory: /data/loki/chunks
+      rulesDirectory: /data/loki/rules
+    bucketNames:
+      chunks: loki-chunks
+      ruler: loki-ruler
+      admin: loki-admin
 
 # Gateway for Loki API
 gateway:
   enabled: true
   ingress:
     enabled: false
+
+# Write configuration (disabled in SingleBinary mode)
+write:
+  replicas: 0
+
+# Read configuration (disabled in SingleBinary mode)
+read:
+  replicas: 0
+
+# Backend configuration (disabled in SingleBinary mode)
+backend:
+  replicas: 0
+
+# Storage configuration
+singleBinary:
+  replicas: 1
+  persistence:
+    size: 10Gi
+    storageClass: local-path
+
+# Compactor configuration
+compactor:
+  retention:
+    enabled: true
+    delete:
+      retention:
+        days: 30

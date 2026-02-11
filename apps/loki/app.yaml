@@ -9,13 +9,12 @@ spec:
   project: default
   source:
     repoURL: https://grafana.github.io/helm-charts
-    targetRevision: 6.16.0
+    targetRevision: 6.52.0
     helm:
       releaseName: loki
-      fileParameters:
-        - name: values.yaml
-          path: values.yaml
-    chart: loki-distributed
+      valueFiles:
+        - values.yaml
+    chart: loki
   destination:
     server: https://kubernetes.default.svc
     namespace: logging
