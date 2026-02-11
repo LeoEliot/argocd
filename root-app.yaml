@@ -1,0 +1,19 @@
+# root-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/LeoEliot/argocd/apps/services'
+    targetRevision: HEAD
+    path: services  # <--- Looks at the /services folder
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: argocd  # Installs the child apps INTO the argocd namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
