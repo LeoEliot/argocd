@@ -7,9 +7,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/LeoEliot/argocd/apps'
+    repoURL: 'https://github.com/LeoEliot/argocd'
     targetRevision: HEAD
-    path: services
+    path: apps/services
     directory:
       recurse: true 
       exclude: 'root-app.yaml'  # <--- Looks at the /services folder
