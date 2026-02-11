@@ -8,10 +8,10 @@ spec:
   project: default
   source:
     repoURL: https://charts.jetstack.io
-    chart: ingress-nginx
+    chart: cert-manager
     targetRevision: 1.19.3
     helm:
-      values: 
+      values: |
         crds:
           enabled: true
   destination:
