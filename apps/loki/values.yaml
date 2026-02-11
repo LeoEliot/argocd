@@ -13,6 +13,8 @@ loki:
       chunks: loki-chunks
       ruler: loki-ruler
       admin: loki-admin
+  commonConfig:
+    replication_factor: 1
 
 # Gateway for Loki API
 gateway:
