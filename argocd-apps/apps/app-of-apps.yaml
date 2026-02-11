@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: apps-of-apps
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: namespaces
+            path: base/namespaces.yaml
+          - name: ingress-nginx
+            path: ingress-nginx/ingress-nginx.yaml
+          - name: cert-manager
+            path: cert-manager/cert-manager.yaml
+          - name: letsencrypt
+            path: letsencrypt/letsencrypt.yaml
+          - name: gitea
+            path: gitea/gitea.yaml
+          - name: kube-prometheus
+            path: kube-prometheus/kube-prometheus.yaml
+          - name: loki
+            path: loki/loki.yaml
+  template:
+    metadata:
+      name: '{{name}}'
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/LeoEliot/argocd
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

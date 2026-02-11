@@ -1,4 +1,0 @@
-# Ingress Nginx configuration
-controller:
-  service:
-    type: LoadBalancer

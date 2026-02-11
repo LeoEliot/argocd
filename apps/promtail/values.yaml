@@ -1,9 +1,0 @@
-# Promtail configuration to send logs to Loki
-config:
-  clients:
-    - url: http://loki-gateway.logging.svc.cluster.local:80/loki/api/v1/push
-
-# Service monitor for Promtail
-serviceMonitor:
-  enabled: true
-  namespace: monitoring
