@@ -1,19 +1,16 @@
-# ingress-nginx/ingress-nginx-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
+  name: cluster-issuer
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://charts.jetstack.io
-    chart: cert-manager
-    targetRevision: 1.19.3
-    helm:
-      values: |
-        crds:
-          enabled: true
+    repoURL: https://github.com/argo/argo-cd.git
+    targetRevision: HEAD
+    path: examples/apps
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
@@ -21,5 +18,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true

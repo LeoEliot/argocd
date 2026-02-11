@@ -1,21 +1,27 @@
-# ingress-nginx/ingress-nginx-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: ingress-nginx
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: https://kubernetes.github.io/ingress-nginx
+    targetRevision: 4.11.3
+    helm:
+      releaseName: ingress-nginx
+      parameters:
+        - name: controller.service.type
+          value: LoadBalancer
     chart: ingress-nginx
-    targetRevision: 4.10.0
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
   syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true

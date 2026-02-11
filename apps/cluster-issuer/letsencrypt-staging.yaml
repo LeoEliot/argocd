@@ -4,12 +4,11 @@ metadata:
   name: letsencrypt-staging
 spec:
   acme:
-    # Use staging server for testing
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     email: vakfuder@gmail.com
     privateKeySecretRef:
-      name: letsencrypt-staging # Secret to store CA account key
+      name: letsencrypt-staging
     solvers:
-    - http01:
-        ingress:
-          class: nginx
+      - http01:
+          ingress:
+            class: nginx

@@ -1,0 +1,45 @@
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: git.malefstorm.ru
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: gitea-tls
+      hosts:
+        - git.malefstorm.ru
+
+# Database configuration
+postgresql-ha:
+  enabled: false
+
+postgresql:
+  enabled: true
+
+# Cache configuration
+valkey-cluster:
+  enabled: false
+
+valkey:
+  enabled: true
+
+# SSH configuration
+gitea:
+  config:
+    server:
+      SSH_DOMAIN: git.malefstorm.ru
+      SSH_PORT: 22
+      SSH_LISTEN_PORT: 2222
+    service:
+      DISABLE_SSH: false
+
+service:
+  ssh:
+    type: LoadBalancer
+    port: 22
+    targetPort: 2222
+    externalTrafficPolicy: Local
