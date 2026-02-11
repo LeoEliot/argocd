@@ -1,0 +1,48 @@
+# Grafana ingress configuration
+grafana:
+  enabled: true
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - grafana.malefstorm.ru
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.malefstorm.ru
+  adminPassword: prom-operator
+
+# Prometheus configuration
+prometheus:
+  enabled: true
+
+# Alertmanager configuration
+alertmanager:
+  enabled: true
+
+# Disable Prometheus Operator pod alerts
+defaultRules:
+  rules:
+    alertmanager: true
+    etcd: true
+    configReloaders: true
+    general: true
+    k8s: true
+    kubeApiserver: true
+    kubeApiserverAvailability: true
+    kubeApiserverBurnrate: true
+    kubeApiserverHistogram: true
+    kubeApiserverSlos: true
+    kubeControllerManager: true
+    kubelet: true
+    kubeProxy: true
+    kubeScheduler: true
+    kubeStateMetrics: true
+    network: true
+    node: true
+    nodeExporterAlerting: true
+    nodeExporterRecording: true
+    prometheus: true
+    prometheusOperator: true

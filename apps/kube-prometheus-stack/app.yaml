@@ -1,24 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cert-manager
+  name: kube-prometheus-stack
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://charts.jetstack.io
-    targetRevision: v1.16.2
+    repoURL: https://prometheus-community.github.io/helm-charts
+    targetRevision: 66.5.0
     helm:
-      releaseName: cert-manager
-      parameters:
-        - name: installCRDs
-          value: "true"
-    chart: cert-manager
+      releaseName: kube-prometheus-stack
+      fileParameters:
+        - name: values.yaml
+          path: values.yaml
+    chart: kube-prometheus-stack
   destination:
     server: https://kubernetes.default.svc
-    namespace: cert-manager
+    namespace: monitoring
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

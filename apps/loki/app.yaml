@@ -1,24 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-nginx
+  name: loki
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://kubernetes.github.io/ingress-nginx
-    targetRevision: 4.11.3
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: 6.16.0
     helm:
-      releaseName: ingress-nginx
-      parameters:
-        - name: controller.service.type
-          value: LoadBalancer
-    chart: ingress-nginx
+      releaseName: loki
+      fileParameters:
+        - name: values.yaml
+          path: values.yaml
+    chart: loki-distributed
   destination:
     server: https://kubernetes.default.svc
-    namespace: ingress-nginx
+    namespace: logging
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

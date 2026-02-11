@@ -1,24 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: gitea
+  name: ingress-nginx
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://charts.gitea.io
-    targetRevision: 10.6.0
+    repoURL: https://kubernetes.github.io/ingress-nginx
+    targetRevision: 4.11.3
     helm:
-      releaseName: gitea
+      releaseName: ingress-nginx
       fileParameters:
         - name: values.yaml
-          path: gitea-values.yaml
-    chart: gitea
+          path: values.yaml
+    chart: ingress-nginx
   destination:
     server: https://kubernetes.default.svc
-    namespace: gitea
+    namespace: ingress-nginx
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
