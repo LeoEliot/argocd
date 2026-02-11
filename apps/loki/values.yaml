@@ -3,16 +3,11 @@ deploymentMode: SingleBinary
 
 # Loki simple/single binary mode
 loki:
-  mode: SingleBinary
   storage:
     type: "filesystem"
     filesystem:
-      chunksDirectory: /data/loki/chunks
-      rulesDirectory: /data/loki/rules
-    bucketNames:
-      chunks: loki-chunks
-      ruler: loki-ruler
-      admin: loki-admin
+      chunks_directory: /data/loki/chunks
+      rules_directory: /data/loki/rules
   commonConfig:
     replication_factor: 1
 
