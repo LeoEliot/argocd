@@ -11,7 +11,7 @@ spec:
     chart: ingress-nginx
     targetRevision: 1.19.3
     helm:
-      values: |
+      values: 
         crds:
           enabled: true
   destination:
