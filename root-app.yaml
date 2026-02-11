@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: letsencrypt-issuers
+  name: root-app
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,10 +10,12 @@ spec:
   source:
     repoURL: https://github.com/LeoEliot/argocd
     targetRevision: HEAD
-    path: letsencrypt/resources
+    path: apps
+    directory:
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: cert-manager
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
